@@ -44,12 +44,29 @@ impl Graph {
     ///
     /// The `alignment` should be derived from calling `AlignmentEngine::align` with the
     /// `sequence`.
-    pub fn add_alignment(&mut self, alignment: &Alignment, sequence: &CStr, quality: &CStr) {
+    pub fn add_alignment(&mut self, alignment: &Alignment, sequence: &CStr) {
+        let sequence_len = u32::try_from(sequence.to_bytes().len()).unwrap();
+        unsafe {
+            ffi::add_alignment(
+                self.0.pin_mut(),
+                alignment.0.as_ref().unwrap(),
+                sequence.as_ptr(),
+                sequence_len,
+            )
+        }
+    }
+
+    pub fn add_alignment_with_quality(
+        &mut self,
+        alignment: &Alignment,
+        sequence: &CStr,
+        quality: &CStr,
+    ) {
         let sequence_len = u32::try_from(sequence.to_bytes().len()).unwrap();
         let quality_len = u32::try_from(quality.to_bytes().len()).unwrap();
         assert!(sequence_len == quality_len);
         unsafe {
-            ffi::add_alignment(
+            ffi::add_alignment_with_quality(
                 self.0.pin_mut(),
                 alignment.0.as_ref().unwrap(),
                 sequence.as_ptr(),

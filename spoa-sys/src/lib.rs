@@ -27,6 +27,12 @@ pub mod ffi {
             alignment: &Alignment,
             sequence: *const c_char,
             sequence_len: u32,
+        );
+        unsafe fn add_alignment_with_quality(
+            graph: Pin<&mut Graph>,
+            alignment: &Alignment,
+            sequence: *const c_char,
+            sequence_len: u32,
             quality: *const c_char,
             quality_len: u32,
         );

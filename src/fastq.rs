@@ -1,13 +1,13 @@
 use std::ffi::CString;
 use std::io::{BufRead, Result};
 
-pub struct FastqRecord {
+pub(crate) struct FastqRecord {
     pub name: CString,
     pub seq: CString,
     pub qual: CString,
 }
 
-pub struct FastqReader<R: BufRead> {
+pub(crate) struct FastqReader<R: BufRead> {
     reader: R,
 }
 
