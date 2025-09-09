@@ -11,6 +11,11 @@ pub mod ffi {
         kOV,
     }
 
+    struct AlignmentPair {
+        first: i32,
+        second: i32,
+    }
+
     unsafe extern "C++" {
         include!("spoa-sys/include/bindings.hpp");
 
@@ -18,6 +23,8 @@ pub mod ffi {
         type AlignmentEngine;
         type AlignmentType;
         type Graph;
+
+        fn alignment_to_vec(alignment: &Alignment) -> Vec<AlignmentPair>;
 
         fn create_graph() -> UniquePtr<Graph>;
         /// # Safety

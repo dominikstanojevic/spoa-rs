@@ -1,9 +1,16 @@
-use spoa_sys::ffi;
+use spoa_sys::ffi::{self, AlignmentPair};
 
 pub use ffi::AlignmentType;
 
 /// An opaque struct containing an alignment of a sequence to a `Graph`
 pub struct Alignment(cxx::UniquePtr<ffi::Alignment>);
+
+impl Alignment {
+    /// Convert the alignment to a vector of (graph position, read position) pairs
+    pub fn to_vec(&self) -> Vec<AlignmentPair> {
+        ffi::alignment_to_vec(self.0.as_ref().unwrap())
+    }
+}
 
 /// An opaque struct for aligning sequences to a `Graph`
 pub struct AlignmentEngine(cxx::UniquePtr<ffi::AlignmentEngine>);

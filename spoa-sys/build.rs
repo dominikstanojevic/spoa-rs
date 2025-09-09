@@ -3,6 +3,12 @@ use walkdir::WalkDir;
 fn main() {
     println!("cargo:rerun-if-changed=build.rs");
 
+    let optimize_for_native = if std::env::var("CARGO_FEATURE_NATIVE").is_ok() {
+        "ON"
+    } else {
+        "OFF"
+    };
+
     let use_simde = if std::env::var("CARGO_FEATURE_SIMDE").is_ok() {
         "ON"
     } else {
@@ -12,7 +18,7 @@ fn main() {
     let dst = cmake::Config::new("spoa")
         .define("spoa_build_exe", "OFF")
         .define("spoa_build_tests", "OFF")
-        .define("spoa_optimize_for_native", "OFF")
+        .define("spoa_optimize_for_native", optimize_for_native)
         .define("spoa_use_simde", use_simde)
         .build();
     let lib64 = dst.join("lib64");

@@ -10,11 +10,12 @@ repository = "https://github.com/nlhepler/spoa-rs"
 [features]
 default = []
 simde = ["spoa-sys/simde"]
+native = ["spoa-sys/native"]
 
 [workspace]
 
 [dependencies]
-cxx = "1.0"
+cxx = "~1.0.180"
 spoa-sys = { version = "0.2.1", path = "spoa-sys" }
 
 [dev-dependencies]
